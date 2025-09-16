@@ -24,7 +24,7 @@
         <geometry>
           <mesh>
             <uri>model://package_3/meshes/package.dae</uri>
-            <scale>0.25 0.25 0.25</scale>
+            <scale>4 4 2</scale>
           </mesh>
         </geometry>
         <transparency>0</transparency>
@@ -34,7 +34,7 @@
         <geometry>
           <mesh>
             <uri>model://package_3/meshes/package.dae</uri>
-            <scale>0.25 0.25 0.25</scale>
+            <scale>4 4 2</scale>
           </mesh>
         </geometry>
       </collision>

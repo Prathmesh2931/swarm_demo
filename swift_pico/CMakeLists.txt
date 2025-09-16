@@ -9,14 +9,16 @@ endif()
 find_package(ament_cmake REQUIRED)
 find_package(swift_msgs REQUIRED)
 find_package(controller_msg REQUIRED)
+find_package(error_msg REQUIRED)
 find_package(geometry_msgs REQUIRED)
 find_package(rclpy REQUIRED)
 find_package(rclcpp REQUIRED)
+find_package(OpenCV REQUIRED)
 find_package(swift_pico_description REQUIRED)
 
 
-
 #Target installations
+
 #task1
 
 #Install launch files
@@ -29,6 +31,22 @@ install(
   DIRECTORY
     config/
   DESTINATION share/${PROJECT_NAME}/config
+)
+
+install(
+  DIRECTORY worlds/
+  DESTINATION share/${PROJECT_NAME}/worlds
+)
+
+#Install scripts
+install(PROGRAMS
+  scripts/task1a.cpp
+  scripts/task1a.py
+  src/pico_controller_PID.py
+  src/pico_controller_LQR.py
+  src/pico_controller_PID.cpp
+  src/pico_controller_LQR.cpp
+  DESTINATION lib/${PROJECT_NAME}
 )
 
 ament_package()
