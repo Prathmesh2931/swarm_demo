@@ -1,0 +1,75 @@
+######################
+# ROS 2 & Colcon Build Artifacts
+######################
+build/
+install/
+log/
+.colcon/
+*.log
+
+######################
+# Python
+######################
+__pycache__/
+*.py[cod]
+*.so
+*.egg
+*.egg-info/
+dist/
+*.pyo
+*.pyd
+
+######################
+# C++
+######################
+*.out
+*.o
+*.a
+*.so
+*.d
+*.dSYM/
+cmake-build-*/
+
+######################
+# Gazebo
+######################
+*.world~
+*.model~
+gazebo_models/
+*.log
+~/.gazebo/
+
+######################
+# ROS Bag Files
+######################
+#*.bag
+#*.bag.active
+#*.db3
+
+######################
+# Launch Logs / ROS Logs
+######################
+*.log
+*.launch.py~
+*.xml~
+*.yaml~
+*.params.yaml~
+
+######################
+# VS Code / Editor Configs
+######################
+.vscode/
+*.code-workspace
+*.swp
+*.swo
+.idea/
+
+######################
+# System / OS Files
+######################
+.DS_Store
+Thumbs.db
+ehthumbs.db
+Icon?
+desktop.ini
+

@@ -16,10 +16,25 @@ find_package(rclcpp REQUIRED)
 find_package(OpenCV REQUIRED)
 find_package(swift_pico_description REQUIRED)
 
-
 #Target installations
+#builds cpp source code into an executable
+add_executable(pico_controller_PID_cpp src/pico_controller_PID.cpp)
+
+# Correctly links executable against the necessary libraries
+ament_target_dependencies(pico_controller_PID_cpp
+	rclcpp
+	geometry_msgs
+	swift_msgs
+	controller_msg
+  error_msg
+)
 
 #task1
+#install the compiled target for 'ros2 run' to find it.
+install(TARGETS
+	pico_controller_PID_cpp
+	DESTINATION lib/${PROJECT_NAME}
+)
 
 #Install launch files
 install(DIRECTORY
@@ -44,7 +59,7 @@ install(PROGRAMS
   scripts/task1a.py
   src/pico_controller_PID.py
   src/pico_controller_LQR.py
-  src/pico_controller_PID.cpp
+  #src/pico_controller_PID.cpp
   src/pico_controller_LQR.cpp
   DESTINATION lib/${PROJECT_NAME}
 )
