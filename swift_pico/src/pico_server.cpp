@@ -59,22 +59,18 @@ public:
         goal_active_ = false;
         position_received_ = false;
         
-        // PID gains [roll, pitch, throttle] - using EXACT same values from pico_controller_PID.cpp
-        // Kp_[0] = 0.0f;   // Roll (not tuned yet)
-        // Kp_[1] = 0.0f;   // Pitch (not tuned yet)
-        // Kp_[2] = 60.5f;  // Throttle (tuned from Task 1c)
         
-        Kp_[0] = 1.0f;   
-        Kp_[1] = 1.0f;   
-        Kp_[2] = 10.0f; 
+        Kp_[0] = 0.0f;   
+        Kp_[1] = 0.0f;   
+        Kp_[2] = 14.1f; 
 
-        Ki_[0] = 0.025f;
-        Ki_[1] = 0.025f;
-        Ki_[2] = 0.108f;
+        Ki_[0] = 0.0f;
+        Ki_[1] = 0.0f;
+        Ki_[2] = 0.104f;
         
-        Kd_[0] = 15.0f;
-        Kd_[1] = 15.0f;
-        Kd_[2] = 200.0f;
+        Kd_[0] = 0.0f;
+        Kd_[1] = 0.0f;
+        Kd_[2] = 282.0f;
         
         // PID state variables
         prev_error_[0] = 0.0f;      
@@ -85,11 +81,11 @@ public:
         error_sum_[1] = 0.0f;
         error_sum_[2] = 0.0f;
         
-        filtered_derivative_[0] = 0.0f;
-        filtered_derivative_[1] = 0.0f;
-        filtered_derivative_[2] = 0.0f;
+        // filtered_derivative_[0] = 0.0f;
+        // filtered_derivative_[1] = 0.0f;
+        // filtered_derivative_[2] = 0.0f;
         
-        // Limits - same as pico_controller_PID.cpp
+        // Limits - 
         max_values_[0] = 2000.0f;
         max_values_[1] = 2000.0f;
         max_values_[2] = 5000.0f;
@@ -115,10 +111,10 @@ public:
         duration_ = 0.0;
         current_time_ = 0.0;
         
-        // Sample time for PID (40ms = 25 Hz) - same as pico_controller_PID.cpp
-        sample_time_ = 40ms;
+        // Sample time for PID (40ms = 25 Hz) - 
+        sample_time_ = 60ms;
         
-        // D-term filter coefficient - same as pico_controller_PID.cpp
+        // D-term filter coefficient - 
         d_filter_alpha_ = 0.6f;
         
         // Create publishers
@@ -331,7 +327,7 @@ private:
         yaw_ = yaw * 180.0 / M_PI; // Convert to degrees
     }
     
-    // PID control function - EXACT same logic as pico_controller_PID.cpp
+    // PID control function -
     void pid_control()
     {
         // Don't run PID if position hasn't been received yet
@@ -353,7 +349,7 @@ private:
             current_setpoint[2] = desired_state_[2];
         }
         
-        // Compute error [roll, pitch, throttle] - EXACT same as pico_controller_PID.cpp
+        // Compute error [roll, pitch, throttle] -
         float error[3];
         error[0] = current_setpoint[0] - current_pos[0];  // Roll (X-axis)
         error[1] = current_pos[1] - current_setpoint[1];  // Pitch (Y-axis) - sign reversed
@@ -365,12 +361,12 @@ private:
         p_out[1] = Kp_[1] * error[1];
         p_out[2] = Kp_[2] * error[2];
         
-        // Integral term with anti-windup - EXACT same as pico_controller_PID.cpp
+        // Integral term with anti-windup - 
         error_sum_[0] += error[0];
         error_sum_[1] += error[1];
         error_sum_[2] += error[2];
         
-        // Clamp integral to prevent windup (same limits as pico_controller_PID.cpp)
+        // Clamp integral to prevent windup 
         error_sum_[0] = ((error_sum_[0] < -400.0f) ? -400.0f : (error_sum_[0] > 400.0f) ? 400.0f : error_sum_[0]);
         error_sum_[1] = ((error_sum_[1] < -400.0f) ? -400.0f : (error_sum_[1] > 400.0f) ? 400.0f : error_sum_[1]);
         error_sum_[2] = ((error_sum_[2] < -400.0f) ? -400.0f : (error_sum_[2] > 400.0f) ? 400.0f : error_sum_[2]);
@@ -380,34 +376,34 @@ private:
         i_out[1] = Ki_[1] * error_sum_[1];
         i_out[2] = Ki_[2] * error_sum_[2];
         
-        // Derivative term with low-pass filter - EXACT same as pico_controller_PID.cpp
-        float raw_derivative[3];
-        raw_derivative[0] = error[0] - prev_error_[0];
-        raw_derivative[1] = error[1] - prev_error_[1];
-        raw_derivative[2] = error[2] - prev_error_[2];
+        // Derivative term with low-pass filter 
+        // float raw_derivative[3];
+        float d_out[3];
+        d_out[0] = Kd_[0] * (error[0] - prev_error_[0]);
+        d_out[1] = Kd_[1] * (error[1] - prev_error_[1]);
+        d_out[2] = Kd_[2] * (error[2] - prev_error_[2]);
         
         // Apply the exponential moving average filter
-        for (int i = 0; i < 3; ++i) {
-            filtered_derivative_[i] = (d_filter_alpha_ * filtered_derivative_[i]) + 
-                                      ((1.0f - d_filter_alpha_) * raw_derivative[i]);
-        }
+        // for (int i = 0; i < 3; ++i) {
+        //     filtered_derivative_[i] = (d_filter_alpha_ * filtered_derivative_[i]) + 
+        //                               ((1.0f - d_filter_alpha_) * raw_derivative[i]);
+        // }
         
-        float d_out[3];
-        d_out[0] = Kd_[0] * filtered_derivative_[0];
-        d_out[1] = Kd_[1] * filtered_derivative_[1];
-        d_out[2] = Kd_[2] * filtered_derivative_[2];
+        // d_out[0] = Kd_[0] * filtered_derivative_[0];
+        // d_out[1] = Kd_[1] * filtered_derivative_[1];
+        // d_out[2] = Kd_[2] * filtered_derivative_[2];
         
         // Total PID output
         float out_roll = p_out[0] + i_out[0] + d_out[0];
         float out_pitch = p_out[1] + i_out[1] + d_out[1];
         float out_throttle = p_out[2] + i_out[2] + d_out[2];
         
-        // Apply output to neutral command (1500) - EXACT same as pico_controller_PID.cpp
+        // Apply output to neutral command (1500) -
         cmd_.rc_roll = 1500 + static_cast<int>(out_roll);
         cmd_.rc_pitch = 1500 + static_cast<int>(out_pitch);
         cmd_.rc_throttle = 1500 - static_cast<int>(out_throttle);  // Negative for throttle
         
-        // Limit command values - EXACT same logic as pico_controller_PID.cpp
+        // Limit command values -
         cmd_.rc_roll = (cmd_.rc_roll < min_values_[0]) ? min_values_[0] : ((cmd_.rc_roll > max_values_[0]) ? max_values_[0] : cmd_.rc_roll);
         cmd_.rc_pitch = (cmd_.rc_pitch < min_values_[1]) ? min_values_[1] : ((cmd_.rc_pitch > max_values_[1]) ? max_values_[1] : cmd_.rc_pitch);
         cmd_.rc_throttle = (cmd_.rc_throttle < min_values_[2]) ? min_values_[2] : ((cmd_.rc_throttle > max_values_[2]) ? max_values_[2] : cmd_.rc_throttle);
@@ -471,7 +467,7 @@ private:
     swift_msgs::msg::SwiftMsgs cmd_;
     std::chrono::milliseconds sample_time_;
     
-    // PID gains [roll, pitch, throttle] - same as pico_controller_PID.cpp
+    // PID gains [roll, pitch, throttle] -
     float Kp_[3];
     float Ki_[3];
     float Kd_[3];
