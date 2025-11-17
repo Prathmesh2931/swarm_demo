@@ -61,7 +61,7 @@ class Swift_Pico : public rclcpp::Node
             whycon marker at the position of the dummy given in the scene. Make the whycon marker associated with position_to_hold dummy renderable and make changes accordingly*/
             setpoint[0] = -7;
             setpoint[1] = 0;
-            setpoint[2] = 20;
+            setpoint[2] = 29;
 
             //Declaring a cmd of message type swift_msgs and initializing values
             cmd.rc_roll = 1500;
@@ -76,22 +76,28 @@ class Swift_Pico : public rclcpp::Node
             Kp[0] = 0;
             Kp[1] = 0;
             // Kp[2] = 0;
-            Kp[2] = 60.5;
-            // Kp[2] = 14.1;
+            // Kp[2] = 60.5;
+            Kp[2] = 14.1;
 
+            // Kp[2] = 10.0;
+            
             //integral
             Ki[0] = 0;
             Ki[1] = 0;
             // Ki[2] = 0;
-            Ki[2] = 0.108;
-            // Ki[2] = 0.104;
+            // Ki[2] = 0.108;
+            Ki[2] = 0.104;
+
+            // Ki[2] = 0.108;
 
             //derivative
             Kd[0] = 0;
             Kd[1] = 0;
             // Kd[2] = 0;
-            Kd[2] = 1600;
-            // Kd[2] = 282;
+            // Kd[2] = 1600;
+            Kd[2] = 282;
+
+            // Kd[2] = 10.0;
             /*-----------------------Add other required variables for pid here ----------------------------------------------*/
 
             prev_error[0] = 0.0f; prev_error[1] = 0.0f; prev_error[2] = 0.0f; // [roll, pitch, throttle]
