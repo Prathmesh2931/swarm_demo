@@ -1,0 +1,48 @@
+# Clock bridge
+- ros_topic_name: "clock"
+  gz_topic_name: "clock"
+  ros_type_name: "rosgraph_msgs/msg/Clock"
+  gz_type_name: "ignition.msgs.Clock"
+  direction: GZ_TO_ROS
+
+# Drone Master - Odometry
+- ros_topic_name: "/drone_master/odom"
+  gz_topic_name: "/model/drone_master/odometry"
+  ros_type_name: "nav_msgs/msg/Odometry"
+  gz_type_name: "ignition.msgs.Odometry"
+  direction: GZ_TO_ROS
+
+# Drone 1 - Odometry  
+- ros_topic_name: "/drone_1/odom"
+  gz_topic_name: "/model/drone_1/odometry"
+  ros_type_name: "nav_msgs/msg/Odometry"
+  gz_type_name: "ignition.msgs.Odometry"
+  direction: GZ_TO_ROS
+
+# Drone 2 - Odometry
+- ros_topic_name: "/drone_2/odom"
+  gz_topic_name: "/model/drone_2/odometry"
+  ros_type_name: "nav_msgs/msg/Odometry"
+  gz_type_name: "ignition.msgs.Odometry"
+  direction: GZ_TO_ROS
+
+# Drone 3 - Odometry
+- ros_topic_name: "/drone_3/odom" 
+  gz_topic_name: "/model/drone_3/odometry"
+  ros_type_name: "nav_msgs/msg/Odometry"
+  gz_type_name: "ignition.msgs.Odometry"
+  direction: GZ_TO_ROS
+
+# Global IMU (shared by all drones)
+- ros_topic_name: "/imu/data"
+  gz_topic_name: "/imu"
+  ros_type_name: "sensor_msgs/msg/Imu"
+  gz_type_name: "ignition.msgs.IMU"
+  direction: GZ_TO_ROS
+
+# Global NavSat (shared by all drones)  
+- ros_topic_name: "/gps/fix"
+  gz_topic_name: "/navsat"
+  ros_type_name: "sensor_msgs/msg/NavSatFix"
+  gz_type_name: "ignition.msgs.NavSat"
+  direction: GZ_TO_ROS
