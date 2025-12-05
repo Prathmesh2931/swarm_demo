@@ -8,7 +8,7 @@
 	branch = ros2
 [submodule "rotors_simulator"]
 	path = rotors_simulator
-	url = https://github.com/arunser/rotors_simulator.git
+	url = https://github.com/Prathmesh2931/rotors_simulator.git
 	branch = rotors2
 [submodule "whycon"]
 	path = whycon
