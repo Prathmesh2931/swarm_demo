@@ -9,7 +9,7 @@
 [submodule "rotors_simulator"]
 	path = rotors_simulator
 	url = https://github.com/Prathmesh2931/rotors_simulator.git
-	branch = rotors2
+	branch = swarm_demo_modifications
 [submodule "whycon"]
 	path = whycon
 	url = https://github.com/arunser/whycon.git
