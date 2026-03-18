@@ -1,6 +1,8 @@
 # Swarm Demo — Dynamic ROS 2 / Gazebo Multi-Robot Bridging
 
-A proof-of-concept for **GSoC 2025 — Scalable Multi-Robot Integration and Automated Bridging for ROS 2 and Gazebo** (mentor: Addisu Taddese).
+🎥 Demo: https://drive.google.com/file/d/1L2fdBqbFbfRXzxcmCUBW4j_bvhCnm-xV/view?usp=sharing
+
+A proof-of-concept for **GSoC 2026 — Scalable Multi-Robot Integration and Automated Bridging for ROS 2 and Gazebo** (mentor: Addisu Taddese).
 
 Demonstrates automatic ROS ↔ Gazebo bridge generation and namespace isolation for multi-robot simulations — no manual bridge configuration required.
 
